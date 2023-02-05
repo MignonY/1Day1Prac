@@ -14,13 +14,13 @@ for i in range(len(finls)):
     if sum(finls[i]) == N:
         ssjls.append(finls[i][-1])
 
-#
-# min = 100000001
-# for i in range(len(ssjls)):
-#     if min > ssjls[i]:
-#         min = ssjls[i]
+
+min = 100000001
+for i in range(len(ssjls)):
+    if min > ssjls[i]:
+        min = ssjls[i]
 
 if len(ssjls) == 0:
     print(0)
 else:
-    print(min(ssjls))
+    print(min)
