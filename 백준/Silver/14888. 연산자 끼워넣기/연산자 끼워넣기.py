@@ -1,68 +1,49 @@
-import sys
-input = sys.stdin.readline
-
-def cal(a1, a2, op):
-    if op == '+':
-        return a1 + a2
-    elif op == '-':
-        return a1 - a2
-    elif op == '*':
-        return a1 * a2
-    elif op == '//':
-        if a1 < 0 :
-            return 0 - (abs(a1) // a2)
-        else:
-            return a1//a2
-
-def perm(arr,ans,n):
-    if n == len(arr):
-        fin_op.append(list(ans))
-        return
-    for i in range(len(arr)):
-        if visit[i] == 0:
-            visit[i] = 1
-            ans.append(arr[i])
-            perm(arr,ans,n+1)
-            ans.pop()
-            visit[i] = 0
-
-
+# 연산자 순서  + - * //
 
 N = int(input())
-dic = {0:'+', 1:'-', 2:'*', 3:'//'}
 num_ls = list(map(int,input().split()))
-num_copy = list(num_ls)
-op_num = list(map(int,input().split()))
-op = []
-fin_op = []
-stack =[]
-for i in range(len(op_num)):
-    for j in range(op_num[i]):
-        op.append(dic[i])
-visit= [0 for _ in range(len(op))]
+op_type = list(map(int,input().split()))
+# len(op list) == N-1
+op_list = [0 for _ in range(N-1)]
 
+def cal():
+    val = num_ls[0]
+    for i in range(N-1):
+        if op_list[i] == 0:
+            val += num_ls[i+1]
+        elif op_list[i] == 1:
+            val -= num_ls[i+1]
+        elif op_list[i] == 2:
+            val *= num_ls[i+1]
+        elif op_list[i] == 3:
+            if val < 0:
+                val = 0 - (abs(val)//num_ls[i+1])
+            else:
+                val //= num_ls[i+1]
+    return val
 
-perm(op,[],0)
-# print(fin_op)
+max_value = -1000000005
+min_value = 1000000005
+def combi(depth):
+    global max_value
+    global min_value
+    if depth == N-1:
+        # print(op_list)
+        # print(cal())
+        val = cal()
+        if val < min_value:
+            min_value = val
+        if val > max_value:
+            max_value = val
+        return
 
-minv = 1000000000
-maxv = -1000000000
+    for i in range(4):
+        if op_type[i] != 0:
+            op_list[depth] = i
+            op_type[i] -= 1
+            combi(depth+1)
+            op_type[i] += 1
 
-for i in range(len(fin_op)):
-    for k in range(len(num_ls)):
-        num_ls[k] = num_copy[k]
-    # print("i")
-    # print(num_ls)
-    for j in range(len(num_ls)-1):
-        res = cal(num_ls[j], num_ls[j+1], fin_op[i][j])
-        num_ls[j+1] = res
-        # print(num_ls)
-        # print(num_ls[j],num_ls[j+1])
-    fin_res = num_ls[-1]
-    # print(fin_res)
-    if minv > fin_res:
-        minv = fin_res
-    if maxv <= fin_res:
-        maxv = fin_res
-print(maxv)
-print(minv)
+combi(0)
+print(max_value)
+print(min_value)
