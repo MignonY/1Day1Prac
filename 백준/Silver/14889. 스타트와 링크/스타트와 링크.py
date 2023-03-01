@@ -1,56 +1,43 @@
 N = int(input())
 arr = [list(map(int, input().split())) for _ in range(N)]
-ls = [i for i in range(N)]
-visit = [False for _ in range(N)]
-perm = [0 for _ in range(2)]
-# for i in range(N):
-#     print(arr[i])
-val = 0
+start = []
+link = []
+stN = N//2
+liN = N//2
 
-def plus(ls,n): # 팀 능력치 구하는 함수
-    global val
-    if n == 2:
-        # print(perm,'*')
-        # print(arr[perm[0]][perm[1]])
-        val += arr[perm[0]][perm[1]]
-        return
-    for i in range(len(ls)):
-        if visit[i] == 0:
-            visit[i] = 1
-            perm[n] = ls[i]
-            plus(ls, n+1)
-            visit[i] = 0
+def Cal(ls):
+    res = 0
+    for i in range(N//2):
+        for j in range(N//2):
+            res += arr[ls[i]][ls[j]]
+    return res
 
-    return val
-
-
-minv = 100000
-def DFS(n,ans):
-    global minv
-    global val
-    if n == len(ls):
-        if len(ans) == len(ls)//2:
-            start = ans
-            link = []
-            for i in range(len(ls)):
-                if i not in start:
-                    link.append(i)
-
-            val = 0
-            start_v = plus(start, 0)
-            val = 0
-            link_v = plus(link,0)
-
-            if minv > abs(start_v - link_v):
-                minv = abs(start_v - link_v)
+minv = 1000000
+def Combi(n):
+    global stN, liN,minv
+    if n == N:
+        # print(start, link)
+        temp = abs(Cal(start) - Cal(link))
+        if minv > temp:
+            minv = temp
         return
 
-    ans.append(ls[n])
-    DFS(n+1,ans)
-    ans.pop()
-    DFS(n+1,ans)
-    return
+    if stN:
+        start.append(n)
+        stN -= 1
+        Combi(n+1)
+        start.pop()
+        stN += 1
 
 
-DFS(0,[])
+    if liN:
+        link.append(n)
+        liN -= 1
+        Combi(n+1)
+        link.pop()
+        liN += 1
+
+
+Combi(0)
+
 print(minv)
