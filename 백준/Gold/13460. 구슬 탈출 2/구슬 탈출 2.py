@@ -1,223 +1,197 @@
-def up(red_y, red_x, blue_y, blue_x):
-    new_red_y = red_y
-    new_blue_y = blue_y
+N, M = map(int,input().split())
+arr = [list(input()) for _ in range(N)]
+queue = [0 for _ in range(1000000)]
 
-    red_goal = False
+def up(Ri,Rj,Bi,Bj):
+    nRi = Ri; nRj = Rj; nBi = Bi; nBj = Bj
+
+    R_goal = False
     while True:
-        if arr[new_red_y][red_x] == 'O':
-            red_goal = True
+        if arr[nRi][Rj] == 'O':
+            R_goal = True
             break
-        elif arr[new_red_y][red_x] == '#':
-            new_red_y += 1
+        if arr[nRi][Rj] == '#':
+            nRi += 1
             break
-        new_red_y -= 1
+        nRi -= 1
 
-    blue_goal = False
+    B_goal = False
     while True:
-        if arr[new_blue_y][blue_x] == 'O':
-            blue_goal = True
+        if arr[nBi][Bj] == 'O':
+            B_goal = True
             break
-        if arr[new_blue_y][blue_x] == '#':
-            new_blue_y += 1
+        if arr[nBi][Bj] == '#':
+            nBi += 1
             break
-        new_blue_y -= 1
+        nBi -= 1
 
-    if new_red_y == new_blue_y and red_x == blue_x:
-        if red_y < blue_y:
-            new_blue_y += 1
+    if nRi == nBi and Rj == Bj:
+        if Ri > Bi:
+            nRi += 1
         else:
-            new_red_y += 1
+            nBi += 1
+    return (nRi, Rj, nBi, Bj, R_goal, B_goal)
 
-    return (new_red_y, red_x, new_blue_y, blue_x, red_goal, blue_goal)
+def down(Ri,Rj,Bi,Bj):
+    nRi = Ri; nRj = Rj; nBi = Bi; nBj = Bj
 
-
-def down(red_y, red_x, blue_y, blue_x):
-    new_red_y = red_y
-    new_blue_y = blue_y
-
-    red_goal = False
+    R_goal = False
     while True:
-        if arr[new_red_y][red_x] == 'O':
-            red_goal = True
+        if arr[nRi][Rj] == 'O':
+            R_goal = True
             break
-        elif arr[new_red_y][red_x] == '#':
-            new_red_y -= 1
+        if arr[nRi][Rj] == '#':
+            nRi -= 1
             break
-        new_red_y += 1
+        nRi += 1
 
-    blue_goal = False
+    B_goal = False
     while True:
-        if arr[new_blue_y][blue_x] == 'O':
-            blue_goal = True
+        if arr[nBi][Bj] == 'O':
+            B_goal = True
             break
-        if arr[new_blue_y][blue_x] == '#':
-            new_blue_y -= 1
+        if arr[nBi][Bj] == '#':
+            nBi -= 1
             break
-        new_blue_y += 1
+        nBi += 1
 
-    if new_red_y == new_blue_y and red_x == blue_x:
-        if red_y > blue_y:
-            new_blue_y -= 1
+    if nRi == nBi and Rj == Bj:
+        if Ri > Bi:
+            nBi -= 1
         else:
-            new_red_y -= 1
+            nRi -= 1
+    return (nRi, Rj, nBi, Bj, R_goal, B_goal)
 
-    return (new_red_y, red_x, new_blue_y, blue_x, red_goal, blue_goal)
+def left(Ri,Rj,Bi,Bj):
+    nRi = Ri; nRj = Rj; nBi = Bi; nBj = Bj
 
-
-def left(red_y, red_x, blue_y, blue_x):
-    new_red_x = red_x
-    new_blue_x = blue_x
-
-    red_goal = False
+    R_goal = False
     while True:
-        if arr[red_y][new_red_x] == 'O':
-            red_goal = True
+        if arr[Ri][nRj] == 'O':
+            R_goal = True
             break
-        elif arr[red_y][new_red_x] == '#':
-            new_red_x += 1
+        if arr[Ri][nRj] == '#':
+            nRj += 1
             break
-        new_red_x -= 1
+        nRj -= 1
 
-    blue_goal = False
+    B_goal = False
     while True:
-        if arr[blue_y][new_blue_x] == 'O':
-            blue_goal = True
+        if arr[Bi][nBj] == 'O':
+            B_goal = True
             break
-        if arr[blue_y][new_blue_x] == '#':
-            new_blue_x += 1
+        if arr[Bi][nBj] == '#':
+            nBj += 1
             break
-        new_blue_x -= 1
+        nBj -= 1
 
-    if new_red_x == new_blue_x and red_y == blue_y:
-        if red_x < blue_x:
-            new_blue_x += 1
+    if nRj == nBj and Ri == Bi:
+        if Rj > Bj:
+            nRj += 1
         else:
-            new_red_x += 1
+            nBj += 1
+    return (Ri, nRj, Bi, nBj, R_goal, B_goal)
 
-    return (red_y, new_red_x, blue_y, new_blue_x, red_goal, blue_goal)
+def right(Ri,Rj,Bi,Bj):
+    nRi = Ri; nRj = Rj; nBi = Bi; nBj = Bj
 
-
-def right(red_y, red_x, blue_y, blue_x):
-    new_red_x = red_x
-    new_blue_x = blue_x
-
-    red_goal = False
+    R_goal = False
     while True:
-        if arr[red_y][new_red_x] == 'O':
-            red_goal = True
+        if arr[Ri][nRj] == 'O':
+            R_goal = True
             break
-        elif arr[red_y][new_red_x] == '#':
-            new_red_x -= 1
+        if arr[Ri][nRj] == '#':
+            nRj -= 1
             break
-        new_red_x += 1
+        nRj += 1
 
-    blue_goal = False
+    B_goal = False
     while True:
-        if arr[blue_y][new_blue_x] == 'O':
-            blue_goal = True
+        if arr[Bi][nBj] == 'O':
+            B_goal = True
             break
-        if arr[blue_y][new_blue_x] == '#':
-            new_blue_x -= 1
+        if arr[Bi][nBj] == '#':
+            nBj -= 1
             break
-        new_blue_x += 1
+        nBj += 1
 
-    if new_red_x == new_blue_x and red_y == blue_y:
-        if red_x > blue_x:
-            new_blue_x -= 1
+    if nRj == nBj and Ri == Bi:
+        if Rj > Bj:
+            nBj -= 1
         else:
-            new_red_x -= 1
+            nRj -= 1
+    return (Ri, nRj, Bi, nBj, R_goal, B_goal)
 
-    return (red_y, new_red_x, blue_y, new_blue_x, red_goal, blue_goal)
 
-
-dy = [-1, 1, 0, 0]
-dx = [0, 0, -1, 1]
-N, M = map(int, input().split())
-
-arr = [list(input()) for i in range(N)]
-queue = [0 for _ in range(2050000)]
-
-red_x = 0
-red_y = 0
-blue_x = 0
-blue_y = 0
-hole_x = 0
-hole_y = 0
-
+Ri = 0 ; Rj = 0; Bi = 0; Bj = 0
 for i in range(N):
     for j in range(M):
+        if arr[i][j] == 'R':
+            Ri = i ; Rj = j
+            arr[i][j] = '.'
         if arr[i][j] == 'B':
-            blue_x = j
-            blue_y = i
+            Bi = i ; Bj = j
             arr[i][j] = '.'
-        elif arr[i][j] == 'R':
-            red_x = j
-            red_y = i
-            arr[i][j] = '.'
-        elif arr[i][j] == 'O':
-            hole_x = j
-            hole_y = i
 
-front = 0
+
+
 rear = -1
-
+front = 0
+cnt = 0
 rear += 1
-queue[rear] = (red_y, red_x, blue_y, blue_x, 0)
-
-answer = -1
-while rear + 1 != front:
-    (red_y, red_x, blue_y, blue_x, count) = queue[front]
+u = 2
+queue[rear] = (Ri, Rj, Bi, Bj, cnt, u)
+R_goal = False ; B_goal = False
+ans = -1
+while rear +1 != front:
+    Ri,Rj,Bi,Bj,cnt,u = queue[front]
     front += 1
-
-    if count == 10:
+    if cnt == 10:
         break
 
-    # up
-    (next_red_y, next_red_x, next_blue_y, next_blue_x, red_goal, blue_goal) = up(red_y, red_x, blue_y, blue_x)
-    if red_goal and not blue_goal:
-        answer = count + 1
-        rear = -1
-        front = 0
-        break
+    if u != 1:
+        #up
+        nRi, nRj , nBi, nBj, R_goal, B_goal = up(Ri,Rj,Bi,Bj)
+        if R_goal and not B_goal:
+            ans = cnt + 1
+            break
 
-    elif not blue_goal:
-        rear += 1
-        queue[rear] = (next_red_y, next_red_x, next_blue_y, next_blue_x, count + 1)
+        elif not R_goal and not B_goal:
+            rear +=1
+            queue[rear] = (nRi,nRj,nBi,nBj,cnt+1,1)
 
-    # down
-    (next_red_y, next_red_x, next_blue_y, next_blue_x, red_goal, blue_goal) = down(red_y, red_x, blue_y, blue_x)
-    if red_goal and not blue_goal:
-        answer = count + 1
-        rear = -1
-        front = 0
-        break
+        #down
+        nRi, nRj, nBi, nBj, R_goal, B_goal = down(Ri, Rj, Bi, Bj)
+        if R_goal and not B_goal:
+            ans = cnt + 1
+            break
 
-    elif not blue_goal:
-        rear += 1
-        queue[rear] = (next_red_y, next_red_x, next_blue_y, next_blue_x, count + 1)
+        elif not R_goal and not B_goal:
+            rear += 1
+            queue[rear] = (nRi, nRj, nBi, nBj, cnt + 1, 1)
 
-    #left
-    (next_red_y, next_red_x, next_blue_y, next_blue_x, red_goal, blue_goal) = left(red_y, red_x, blue_y, blue_x)
-    if red_goal and not blue_goal:
-        answer = count + 1
-        rear = -1
-        front = 0
-        break
 
-    elif not blue_goal:
-        rear += 1
-        queue[rear] = (next_red_y, next_red_x, next_blue_y, next_blue_x, count + 1)
+    if u != 0:
+        #left
+        nRi, nRj, nBi, nBj, R_goal, B_goal = left(Ri, Rj, Bi, Bj)
+        if R_goal and not B_goal:
+            ans = cnt + 1
+            break
 
-    #right
-    (next_red_y, next_red_x, next_blue_y, next_blue_x, red_goal, blue_goal) = right(red_y, red_x, blue_y, blue_x)
-    if red_goal and not blue_goal:
-        answer = count + 1
-        rear = -1
-        front = 0
-        break
+        elif not R_goal and not B_goal:
+            rear += 1
+            queue[rear] = (nRi, nRj, nBi, nBj, cnt + 1, 0)
 
-    elif not blue_goal:
-        rear += 1
-        queue[rear] = (next_red_y, next_red_x, next_blue_y, next_blue_x, count + 1)
+        # right
+        nRi, nRj, nBi, nBj, R_goal, B_goal = right(Ri, Rj, Bi, Bj)
+        if R_goal and not B_goal:
+            ans = cnt + 1
+            break
 
-print(answer)
+        elif not R_goal and not B_goal:
+            rear += 1
+            queue[rear] = (nRi, nRj, nBi, nBj, cnt + 1, 0)
+
+        # print(f'RiRj={nRi,nRj},BiBj={nBi,nBj},cnt={cnt},u={u}')
+
+print(ans)
