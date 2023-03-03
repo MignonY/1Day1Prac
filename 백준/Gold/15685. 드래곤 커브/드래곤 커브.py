@@ -22,10 +22,6 @@ for i in range(num):
         vtxls.append((x, y))
 
     vtx_ls = list(set(vtxls))
-    # print((x,y), ret)
-# print(vtxls)
-# print(vtx_ls)
-
 
 VL = len(vtx_ls)
 cnt = 0
@@ -38,7 +34,5 @@ for q in range(VL):
             Flag = False
             continue
     if Flag:
-        # print(i,j)
         cnt += 1
-
 print(cnt)
