@@ -2,8 +2,6 @@ N,L,R = map(int,input().split())
 arr = [list(map(int,input().split())) for _ in range(N)]
 visit = [[0]*N for _ in range(N)]
 
-
-
 def DFS(y,x):
     global saveyx
     visit[y][x] =1
@@ -15,7 +13,6 @@ def DFS(y,x):
                 saveyx.append((ny,nx))
                 visit[ny][nx] = 1
                 DFS(ny,nx)
-
 
 def eedong(y,x):
     global saveyx, cnt
@@ -29,11 +26,6 @@ def eedong(y,x):
     for i in range(S):
         arr[saveyx[i][0]][saveyx[i][1]] = sumv // S
 
-    # for i in range(N):
-    #     print(arr[i],'d')
-    # print()
-
-
 cnt = 0
 while True:
     Flag = True
@@ -45,22 +37,14 @@ while True:
                 if 0 <= ny < N and 0 <= nx < N and visit[i][j]==0:
                     if L <= abs(arr[ny][nx] - arr[i][j]) <= R:
                         Flag = False
-                        # print(i, j, (ny, nx))
-                        # for i in range(N):
-                        #     print(arr[i])
-                        # print()
                         eedong(i,j)
     for i in range(N):
         for j in range(N):
             visit[i][j] = 0
-
+            
     if Flag:
         print(cnt)
         break
-    # for i in range(N):
-    #     print(arr[i])
-    # print()
+
     cnt +=1
 
-# print(arr)
-# print(cnt)
