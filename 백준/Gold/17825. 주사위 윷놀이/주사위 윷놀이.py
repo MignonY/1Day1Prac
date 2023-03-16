@@ -159,28 +159,21 @@ def perm(cnt):
         for i in range(10): #커맨드랑 순열 동시에 돌기
             if temp[i] == savenum:
                 break
-            if saveyx[temp[i]].ifprior == 0:  # 현재 밟은게 빨강이다?
-                traverse = saveyx[temp[i]]  # 일단 현재노드에서
-                # print(traverse.data,'current',command[i])
-                Flag = False  # (도착지 넘어가는거 체크 플래그)
-                for cnt in range(command[i]):
-                    traverse = traverse.next  # 숫자만큼 앞으로 감 (prior이동)
-                    if traverse.data == 0:  # 가고있는데 도착점 넘어섬
-                        saveyx[temp[i]].mal = 0
-                        Flag = True  # 멈초
-                        break
-                if Flag:  # 다음 커맨드로 넘어가면 됨.. 어 근데 또 똑같은말 나오면 어카지
+            if saveyx[temp[i]].ifprior == 0:
+                nextnum = saveyx[temp[i]].nodenum + command[i]
+                if nextnum > 20:
                     savenum = temp[i]
-                    continue  # 아마 틀리면 여기 고쳐야함 save값 두고 또나오면 걍 break쳐버림
-                if traverse.mal == 0:  # 노드에 말이 없으면
-                    hap += traverse.data  # 번호값 더함
-                    saveyx[temp[i]].mal = 0  # 원래 있던곳 값 비워주고
-                    traverse.mal = 1  # 말 이동 :visit체크
-                    saveyx[temp[i]] = traverse  # 현재 말 위치 기록(노드주소,정보)
-
+                    saveyx[temp[i]].mal = 0
+                    continue
                 else:
-                    break  # 아닐시 말 겹치므로 종료
-
+                    togo = node_num[nextnum]    #togo = 다음 노드
+                    if togo.mal == 0:       # 노드에 말이 없으면
+                        hap += togo.data    # 번호값 더하기
+                        saveyx[temp[i]].mal = 0   # 원래 있던곳 값 비워주고
+                        togo.mal = 1        # 말 이동 :visit체크
+                        saveyx[temp[i]] = togo    # 현재 말 위치 기록(노드주소,정보)
+                    else:
+                        break   #아닐시 말 겹치므로 종료
             elif saveyx[temp[i]].ifprior == 1:  #현재 밟은게 파랑이다?
                 traverse = saveyx[temp[i]]  #일단 현재노드에서
                 # print(traverse.data,'current',command[i])
@@ -216,3 +209,4 @@ def perm(cnt):
 perm(0)
 
 print(maxv)
+
