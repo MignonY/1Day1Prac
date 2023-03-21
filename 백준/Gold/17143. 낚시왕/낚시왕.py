@@ -1,38 +1,4 @@
-# 순서
-# 1. 낚시왕 오른쪽 1칸이동 (초기세팅: 맵밖)
-# 2. 해당 y축에서 y값 가장 작은 상어 잡음(삭제)
-# 3. 상어 이동
-    # 3-1. 상어는 초당 s칸 (주어진 속도) 이동
-        #  이동하려는 칸이 맵밖이면 방향을 바꿔서 s칸 이동
-            # 이거 속도만큼 벽으로 이동하고 남은거리 다시 반대로 이동하는거임 !!! 이동후 커브
-            # 나머지연산으로 구현 될듯....? 아마도..?
-
-    # 3-2. 상어 이동 후
-        # 만약 한 자리 2이상 상어면 크기가 가장 큰 상어만 남음
-            # 크기 같은 상어 없음
-
-
-# 델타 : 1위 2아래 3오른쪽 4왼쪽 (입력)
-# 행 y-1 열 x-1 속력s 방향d 크기z
-
-
-### 설계
-## 일단 잡은 상어 리스트 (최종) 만들기 -- 크기만 기록해도 되나?
-## 지도에 상어 표시하고 갈지? -- 맵 최대크기가 100임
-## 아니면 파이어볼처럼 상어 리스트(번호, 정보) 만들고 유효상어 리스트 갱신할지
-    ## ++ 맵에는 그냥 상어 번호만 표시함
-    ## 후자가 나을듯
-
-
-## 필요함수
-# 낚시왕 상어삭제 함수
-# 상어 이동함수
-
-## 준비물
-# 낚시왕 위치(x값)
-# 갱신형 상어 리스트(최종)
-# Temp 상어 리스트
-
+# Clean
 Y, X, M = map(int,input().split())
 Sls = []
 catch = 0
@@ -46,7 +12,6 @@ dx = [0, 0, 1, -1]
 
 # 1턴 위한 초기세팅 : arr에 상어번호 표시 (이동후기준)
 for q in range(len(Sls)):
-    # print(Sls[q][0],Sls[q][1])
     arr[Sls[q][0]][Sls[q][1]].append(q)
 
 # print(Sls)
@@ -130,15 +95,9 @@ def Smove():
     for i in range(Y):
         for j in range(X):
             if len(arr[i][j]) > 1:
-                # for o in range(Y):
-                #     print(arr[o])
-                # print(arr[i][j])
-                # arr[i][j].sort(key=lambda a: a[4], reverse=True)
                 maxz = 0
                 maxn = 0
                 for k in range(len(arr[i][j])):
-                    # print(Sls)
-                    # print(arr[i][j],'sls')
                     if maxz < Sls[arr[i][j][k]][4]:
                         maxz = Sls[arr[i][j][k]][4]
                         maxn = arr[i][j][k]
@@ -150,9 +109,6 @@ def Smove():
                 arr[i][j] = [bigfish]
 
     # 갱신끝
-
-
-
     # True인거만 새 (임시)리스트에 담기
     ifFals = False
     for i in range(len(Sls)):
@@ -161,7 +117,6 @@ def Smove():
         else:
             ifFals = True
 
-    # print('temp',temp)
 
     # Sls 다시 새리스트로 갱신
     Sls = temp
@@ -172,22 +127,8 @@ def Smove():
 
 
 kx = -1
-# FishKing(kx)
-# Smove()
 for i in range(X):
-    # print('before', Sls)
     FishKing()
-    # print('kx:',kx)
-    # print('catch', Sls)
-    # for j in range(Y):
-    #     print(arr[j], 'catch', i)
-    # print()
     Smove()
-    # for j in range(Y):
-    #     print(arr[j], 'after', i)
-    # print(catch,i)
-    # print('after',Sls)
-    # print()
-
 
 print(catch)
