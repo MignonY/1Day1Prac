@@ -13,20 +13,16 @@
 # if 밖으로?
 # ans += 밖으로 나가는 모래양 , continue
 
-
-
 N = int(input())
 arr = [list(map(int,input().split())) for _ in range(N)]
 midy = N//2
 midx = N//2
 ans = 0
-# print(arr)
 
 
-dy = [0, 1, 0, -1] # 좌 하 우 상
+# 좌 하 우 상
+dy = [0, 1, 0, -1]
 dx = [-1, 0, 1, 0]
-
-
 
 forgo = 1   # 방향 바꾸기 전까지 이동 칸수_  초기값
 
@@ -42,12 +38,10 @@ def Tornado(y,x,D):
 
             y += dy[D]
             x += dx[D]
-            # print(y,x, 'curr')
+            # print(y,x, 'current')
             munji(y,x,D)
-            # arr[y][x] = 1
 
         if not inbound:
-            # print(y,x, 'current')
             break
 
         D = (D+1) % 4
@@ -59,14 +53,16 @@ def Tornado(y,x,D):
 
 
 
-
-
 def munji(y,x,D):
     global ans, arr, N
-    # 먼지 방향대로 날리는 로직
+    
     amount = arr[y][x]
-    if D == 0 or D==2: # 좌 우
-            # 나중에 틀리면 여기봐야함 -- 칸에다 적은만큼 빼는게 나머지인지 아님 밖에 날리는것도 빼는건지
+    
+    # 좌 우 
+    if D == 0 or D == 2:
+        
+        ###### 공통부분 ######
+        
         if 0 <= y+ dy[D]*2 < N and 0 <= x+ dx[D]*2 < N:
             arr[y+ dy[D]*2][x+ dx[D]*2] += int(arr[y][x] * 0.05)
             amount -= int(arr[y][x] * 0.05)
@@ -101,6 +97,8 @@ def munji(y,x,D):
         else:
             ans += int(arr[y][x] * 0.02)
             amount -= int(arr[y][x] * 0.02)
+
+            ###### 예외처리 ######
 
         if 0<= y+ dy[3] < N and 0<= x+ dx[(D+2)%4] < N:
             arr[y+ dy[3]][x+ dx[(D+2)%4]] += int(arr[y][x] * 0.01)
@@ -138,13 +136,11 @@ def munji(y,x,D):
 
         arr[y][x] = 0
 
-
-    if D == 1 or D == 3:  # 상 하
-        # if 0<= y+ dy[D] <N and 0<= x+ dx[D] <N:
-        #     arr[y+ dy[D]][x+ dx[D]] = int(arr[y][x] * 0.55)
-        # else:
-        #     ans += int(arr[y][x] * 0.55)
-
+    # 상 하 
+    if D == 1 or D == 3:
+        
+        ###### 공통부분######    
+        
         if 0 <= y+ dy[D]*2 < N and 0 <= x+ dx[D]*2 < N:
             arr[y+ dy[D]*2][x+ dx[D]*2] += int(arr[y][x] * 0.05)
             amount -= int(arr[y][x] * 0.05)
@@ -179,8 +175,8 @@ def munji(y,x,D):
         else:
             ans += int(arr[y][x] * 0.02)
             amount -= int(arr[y][x] * 0.02)
-        ######
-        #
+
+        ###### 예외처리 ######
 
         if 0 <= y + dy[(D + 2) % 4] < N and 0 <= x + dx[0] < N:
             arr[y + dy[(D + 2) % 4]][x + dx[0]] += int(arr[y][x] * 0.01)
@@ -217,39 +213,12 @@ def munji(y,x,D):
             ans += amount
         arr[y][x] = 0
 
+    # 테스트출력 
     # for i in range(N):
     #     print(arr[i], (y,x))
     # print(ans)
     # print()
 
 
-            # 나중에 틀리면 여기봐야함 -- 칸에다 적은만큼 빼는게 나머지인지 아님 밖에 날리는것도 빼는건지
-            # arr[y + dy[D]][x + dx[D]] = int(arr[y][x] * 0.55)
-            # arr[y + dy[D] * 2][x + dx[D] * 2] += int(arr[y][x] * 0.05)
-            # arr[y + dy[(D + 1) % 4]][x + dx[(D + 1) % 4]] += int(arr[y][x] * 0.07)
-            # arr[y + dy[(D + 3) % 4]][x + dx[(D + 3) % 4]] += int(arr[y][x] * 0.07)
-            # arr[y + dy[(D + 1) % 4] * 2][x + dx[(D + 1) % 4] * 2] += int(arr[y][x] * 0.02)
-            # arr[y + dy[(D + 3) % 4] * 2][x + dx[(D + 3) % 4] * 2] += int(arr[y][x] * 0.02)
-            #
-            #
-            # arr[y + dy[(D + 2) % 4]][x + dx[0]] += int(arr[y][x] * 0.01)
-            # arr[y + dy[(D + 2) % 4]][x + dx[2]] += int(arr[y][x] * 0.01)
-            # arr[y + dy[D]][x + dx[0]] += int(arr[y][x] * 0.1)
-            # arr[y + dy[D]][x + dx[2]] += int(arr[y][x] * 0.1)
-            # arr[y][x] = 0
-
-
-
-    # dy = [0, 1, 0, -1]  # 좌 하 우 상
-    # dx = [-1, 0, 1, 0]
-# 좌 기준으로 상우 하우일때
-# 상 기준으로는 하좌 하우임
-# 하 기준으로는 상좌 상우
-# 우 기준으로는 상좌 하좌임
-
-# munji(5,3,1)
 Tornado(midy, midx, 0)
-# print(midy,midx)
-# for i in range(N):
-#     print(arr[i])
 print(ans)
