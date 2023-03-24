@@ -1,27 +1,110 @@
 def solution(tickets):
-	tickets.sort(reverse=True)  # 정렬
-	routes = dict()  # {} 생성
-	# 그래프 생성
-	for t1, t2 in tickets:
-		if t1 in routes:
-			routes[t1].append(t2)
-		else:
-			routes[t1] = [t2]
+    global visit, arr, N, graph, visited, dic, dic_swap,answer,depth,grcnt
+    arr = tickets
+    dic = {}
+    answer = []
+    N = len(arr)
+    visit = [0 for _ in range(N)]
+    num = -1
+    for i in range(N):
+        for j in range(2):
+            if arr[i][j] in dic:
+                continue
+            else:
+                num +=1
+                dic[arr[i][j]] = num
 
-	st = ['ICN']
-	ans = []
+    graph = [[] for _ in range(len(dic))]
+    grcnt = 0
+    for i in range(len(arr)):
+        graph[dic[arr[i][0]]].append(dic[arr[i][1]])
+        grcnt += 1
+    # print(arr)
+    # print(graph)
+    # for i in range(len(graph)):
+    #     graph[i].sort()
+    # print(graph)
+    dic_swap = {v:k for k,v in dic.items()}
 
 
-	while st:
-		top = st[-1]
-		# 해당 나라가 graph에 없거나, 해당 나라의 키의 값이 0이면 (더 갈데가 없다는 뜻)
-		if top not in routes or len(routes[top]) == 0:
-			ans.append(st.pop())  # 해당 나라를 빼서 답안에 넣는다
-		else:  # 아니면 더 갈 곳을 찾는다 (해당 나라의 키의 값을 stack에 넣음)
-			st.append(routes[top].pop())
+    for i in range(len(graph[dic['ICN']])):
+        visit = list(map(list,graph))
+        for j in range(len(visit)):
+            for k in range(len(visit[j])):
+                visit[j][k] = 0
+        visited = [dic_swap[dic['ICN']],dic_swap[graph[dic['ICN']][i]]]
+        visit[dic['ICN']][i] = -1
+        DFS(graph[dic['ICN']][i],1)
+        visit[dic['ICN']][i] = 0
+    # print(f'ans={ans}')
+    return ans
 
-	ans.reverse()
-	print(ans)
-	return ans
 
-solution([["ICN", "B"], ["B", "C"], ["C", "ICN"], ["ICN", "D"], ["ICN", "E"], ["E", "F"]])
+
+def DFS(n,depth):
+    global grcnt,answer,ans
+    # print(dic)
+    # print(n,'n')
+    # print(graph)
+    # print()
+    if depth == len(arr):
+        iford = True
+        # print(f'depth:{depth}, {visited}')
+        # print(visited,'######', answer)
+        if len(answer) == 0:
+            answer = list(visited)
+            # print('dd')
+        else:
+            for j in range(len(answer)):
+                # print(j)
+                if visited[j] != answer[j]:
+                    if ord(visited[j][0]) > ord(answer[j][0]):
+                        iford = False
+                        break
+                    elif ord(visited[j][0]) == ord(answer[j][0]):
+                        if ord(visited[j][1]) > ord(answer[j][1]):
+                            iford = False
+                            break
+                        elif ord(visited[j][1]) == ord(answer[j][1]):
+                            if ord(visited[j][2]) > ord(answer[j][2]):
+                                iford = False
+                                break
+                    break
+            # print(iford)
+            if iford:
+                answer = list(visited)
+        # print(answer,'ans')
+        ans = list(answer)
+        for i in range(len(visit[dic[visited[-2]]])):
+            if graph[dic[visited[-2]]][i] == dic[visited[-1]]:
+                visit[dic[visited[-2]]][i] = 0
+                break
+        visited.pop()
+        return ans
+
+
+    for i in range(len(graph[n])):
+        if visit[n][i] != -1:
+            visited.append(dic_swap[graph[n][i]])
+            # print((n,i), 'depth=',depth)
+            visit[n][i] = -1
+            DFS(graph[n][i],depth+1)
+            visit[n][i] = 0
+            # print(n,'now?')
+
+    # print()
+    # print(visited, depth)
+    # print(visit,n)
+    # print(graph)
+    # print()
+    # for i in range(len(visit[dic[visited[-2]]])):
+    #     if graph[dic[visited[-2]]][i] == dic[visited[-1]]:
+    #         visit[dic[visited[-2]]][i] = 0
+    #         break
+    # print(depth, dic[visited[depth]],dic[visited[depth-1]])
+    visited.pop()
+    # print(visit, depth,'back',n)
+    # print(visited)
+
+
+
