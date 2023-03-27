@@ -14,20 +14,19 @@ def solution(begin, target, words):
 
 
 def BFS(word, depth):
-    global visit
+    visited = []
     rear = -1
     front = 0
     rear += 1
-    depth = 0
-    queue[rear] = (word, depth, visit)
+    queue[rear] = (word, depth)
 
     while rear +1 != front:
         current = queue[front][0]
         depth = queue[front][1]
-        visit = list(queue[front][2])
         front += 1
         # print(f'current:{current}')
         if current == target_:
+            # print(depth, visited)
             return depth
 
         for i in range(len(words_)):
@@ -40,12 +39,11 @@ def BFS(word, depth):
                 # print(words_[i])
                 rear += 1
                 visit[i] = 1
+                visited.append(words_[i])
                 # print(visit,'visit')
-                queue[rear] = (words_[i], depth+1, list(visit))
-                visit[i] = 0
+                queue[rear] = (words_[i], depth+1)
 
 
         if rear +1 == front:
             if current != target_:
                 return 0
-
