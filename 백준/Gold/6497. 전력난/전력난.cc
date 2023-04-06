@@ -98,5 +98,5 @@ void print() {
 void init() {
 	res = 0;
 	maxv = 0;
-	VEC.clear();
+	VEC.resize(0);
 }
