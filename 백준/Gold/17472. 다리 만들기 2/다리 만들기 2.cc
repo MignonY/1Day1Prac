@@ -1,4 +1,4 @@
-//크루스칼풀이
+//최종본, 완전연결트리인지 확인하고 크루스칼 돌렸음 (순서 의미없는듯)
 #include <stdio.h>
 #include <iostream>
 #include <vector>
@@ -186,9 +186,6 @@ int main() {
 	if (cnt != SNUM - 1 || SNUM - 1 == 1)
 		Flag = false;
 
-	//	printf("cnt %d\n", cnt);
-	//	printf("SNUM %d\n", SNUM-1);
-	//printf("\n");
 	if (Flag == true) {
 		ans = kruskal();
 		printf("%d\n", ans);
