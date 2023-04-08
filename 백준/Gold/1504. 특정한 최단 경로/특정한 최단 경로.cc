@@ -73,7 +73,7 @@ int main(){
  		int v2_N = table[N];
  		int v2_v1 = table[v1];
 		
-		if(start_v1 +v1_v2+ v2_N>= INF || start_v2 + v1_v2+ v1_N >= INF)
+		if(start_v1 +v1_v2+ v2_N>= INF && start_v2 + v1_v2+ v1_N >= INF)
 			printf("-1\n");
 		else if(start_v1 +v1_v2+ v2_N < start_v2 + v1_v2+ v1_N)
 			printf("%d\n", start_v1 +v1_v2+ v2_N);
