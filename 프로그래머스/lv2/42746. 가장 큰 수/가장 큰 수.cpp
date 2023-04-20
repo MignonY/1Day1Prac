@@ -4,19 +4,8 @@
 using namespace std;
 string temp[100005];
 bool cmp(string a, string b){
-	if(a[0] > b[0])
-		return true;
-	if(a[0] < b[0])
-		return false;
-	if(a[0] == b[0]){
-		if(a+b > b+a)
-			return true;
-		else
-			return false;
+		return (a+b > b+a);
 	}
-	
-	return true;
-}
 
 void merge_sort(int start, int end, vector<string> &arr){	
 	if (end - start<=1)
