@@ -25,7 +25,7 @@ def mv_300(m_src, m_dst):
     # m_src 첫번째꺼랑 m_dst 첫번째꺼 교환
     # 둘중 하나가 비어있으면 그냥 받음
 
-    #노드개수 조건
+    #노드개수 조건 
     if scnt[m_src] > 0 and scnt[m_dst] > 0:
         #데이터만 쏙 교환
         C[m_src].next.data, C[m_dst].next.data = C[m_dst].next.data, C[m_src].next.data
