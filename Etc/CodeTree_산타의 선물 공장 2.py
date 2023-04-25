@@ -30,7 +30,7 @@ def mv_300(m_src, m_dst):
         #데이터만 쏙 교환
         C[m_src].next.data, C[m_dst].next.data = C[m_dst].next.data, C[m_src].next.data
         prls[C[m_src].next.data], prls[C[m_dst].next.data] = prls[C[m_dst].next.data], prls[C[m_src].next.data]
-
+ 
     elif scnt[m_src] == 0 and scnt[m_dst] > 0:
         # m_dst에서 앞에꺼 하나만 끊어다가 m_src 헤드에 붙임
         # src 헤드에서 앞뒤연결
