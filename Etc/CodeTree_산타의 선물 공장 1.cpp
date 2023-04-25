@@ -32,7 +32,7 @@ void print_dic(unordered_map<K,V> const &dic){
 	}
 	printf("}\n");
 }
-
+ 
 void Q_200(int w_max, unsigned long long cnt){
 	cnt = 0;
 	for(int i=1; i<=m; ++i){
