@@ -3,10 +3,10 @@
 int N,X, rootN, BF_MIDidx ,MIDidx, BIGROOT;
 int inord[100005], postord[100005]; 
 
-typedef struct NODE{
-	struct NODE *left= nullptr, *right= nullptr;
+struct NODE{
+	NODE *left= nullptr, *right= nullptr;
 	int value = -1;
-}NODE;
+};
 
 NODE pool[100005];
 NODE* access[100005];
@@ -14,8 +14,6 @@ NODE *ROOT, *LEFT, *RIGHT;
 int Pidx; 
 
 void SORT_ORDER(int inS, int inE, int postS, int postE, int MIDidx){
-
-//	printf("start : MIDidx = %d, intS:%d, intE:%d, postS:%d, postE:%d\n", MIDidx, inS, inE, postS, postE);
 
 	//종료조건 
 	if(inE - inS < 0 || postE-postS <0){
@@ -25,7 +23,7 @@ void SORT_ORDER(int inS, int inE, int postS, int postE, int MIDidx){
 	//진행  
 	BF_MIDidx = MIDidx;
 	rootN= postord[postE];
-	printf("%d ",rootN);
+	
 	for(int i=inS; i<=inE; ++i){
 		if(inord[i] ==  rootN){
 			MIDidx = i;
@@ -38,7 +36,8 @@ void SORT_ORDER(int inS, int inE, int postS, int postE, int MIDidx){
 		}
 	}
 	
-	if (BF_MIDidx>0){
+	//연결   
+	if (BF_MIDidx>=0){
 		if (BF_MIDidx < MIDidx){
 			access[BF_MIDidx]->right = access[MIDidx];
 		}
@@ -46,15 +45,10 @@ void SORT_ORDER(int inS, int inE, int postS, int postE, int MIDidx){
 			access[BF_MIDidx]->left = access[MIDidx];
 		}
 	}
-		
-
 
 	//분할  
 	SORT_ORDER(inS,MIDidx-1, postS, postS+(MIDidx-1 -inS), MIDidx); // left
-	SORT_ORDER(MIDidx+1,inE, postE-1-(inE -(MIDidx+1)), postE-1, MIDidx); // right
-	
-	
-	
+	SORT_ORDER(MIDidx+1,inE, postE-1-(inE -(MIDidx+1)), postE-1, MIDidx); // right	
 }
 
 void pre_order(NODE* ROOT){
@@ -99,7 +93,7 @@ int main(){
 	BIGROOT = postord[N-1];
 	SORT_ORDER(0,N-1,0,N-1,-1);
 	
-//	pre_order(&pool[0]);
+	pre_order(&pool[0]);
 	
 	return 0;
 }
