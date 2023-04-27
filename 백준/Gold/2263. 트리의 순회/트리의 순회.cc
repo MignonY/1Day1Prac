@@ -1,16 +1,8 @@
 #include <stdio.h>
-#define new_node() (&pool[Pidx++])
-int N,X, rootN, BF_MIDidx ,MIDidx, BIGROOT;
+
+int N,X, rootN,MIDidx;
 int inord[100005], postord[100005]; 
 
-struct NODE{
-	NODE *left= nullptr, *right= nullptr;
-	int value = -1;
-};
-
-NODE pool[100005];
-NODE* access[100005];
-NODE *ROOT, *LEFT, *RIGHT;
 int Pidx; 
 
 void SORT_ORDER(int inS, int inE, int postS, int postE, int MIDidx){
@@ -21,48 +13,21 @@ void SORT_ORDER(int inS, int inE, int postS, int postE, int MIDidx){
 	}
 
 	//진행  
-	BF_MIDidx = MIDidx;
 	rootN= postord[postE];
-	
+	printf("%d ", rootN);
 	for(int i=inS; i<=inE; ++i){
 		if(inord[i] ==  rootN){
 			MIDidx = i;
-			ROOT = new_node();
-			access[MIDidx] = ROOT;
-			ROOT->value = rootN;
-			ROOT->left = nullptr;
-			ROOT->right= nullptr;
 			break;
 		}
 	}
 	
-	//연결   
-	if (BF_MIDidx>=0){
-		if (BF_MIDidx < MIDidx){
-			access[BF_MIDidx]->right = access[MIDidx];
-		}
-		if (BF_MIDidx > MIDidx){
-			access[BF_MIDidx]->left = access[MIDidx];
-		}
-	}
 
 	//분할  
 	SORT_ORDER(inS,MIDidx-1, postS, postS+(MIDidx-1 -inS), MIDidx); // left
 	SORT_ORDER(MIDidx+1,inE, postE-1-(inE -(MIDidx+1)), postE-1, MIDidx); // right	
 }
 
-void pre_order(NODE* ROOT){
-	if (ROOT->left == nullptr && ROOT->right == nullptr){
-		printf("%d ", ROOT->value);
-		return;
-	}
-	
-	printf("%d ", ROOT->value);
-	if (ROOT->left != nullptr)
-		pre_order(ROOT->left);
-	if(ROOT->right != nullptr)
-		pre_order(ROOT->right);	
-}
 
 int main(){
 	scanf("%d", &N);
@@ -89,11 +54,7 @@ int main(){
 //	printf("\n");
 	//------------//
 	
-	
-	BIGROOT = postord[N-1];
 	SORT_ORDER(0,N-1,0,N-1,-1);
-	
-	pre_order(&pool[0]);
 	
 	return 0;
 }
