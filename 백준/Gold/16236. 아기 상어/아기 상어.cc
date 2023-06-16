@@ -1,6 +1,6 @@
 #include <stdio.h>
 //#define PRINT printf
-//#define PRINT 
+#define PRINT 
 
 int N, Fcnt, sy, sx,arr[25][25];
 bool visit[25][25];
@@ -46,7 +46,7 @@ void BFS(int y, int x, int depth){
 		front++;
 		
 		if(temp.valid && depth > temp.depth){
-//			PRINT("exit : %d, yx: %d,%d\n", temp.depth, temp.y, temp.x);
+			PRINT("exit : %d, yx: %d,%d\n", temp.depth, temp.y, temp.x);
 			eat++;
 			Fcnt--;
 			time += temp.depth;
@@ -75,7 +75,7 @@ void BFS(int y, int x, int depth){
 					}
 					else{
 						//등록한 물고기 후보 있음
-//						PRINT("\n[%d %d] : %d, %d %d / %d, %d %d\n",y,x, temp.depth, temp.y, temp.x, depth+1, ny, nx);
+						PRINT("\n[%d %d] : %d, %d %d / %d, %d %d\n",y,x, temp.depth, temp.y, temp.x, depth+1, ny, nx);
 						bool flag = false;
 						if(temp.depth >= depth+1){
 							if(temp.depth == depth+1){
@@ -100,7 +100,7 @@ void BFS(int y, int x, int depth){
 						if (flag)
 							temp.y = ny, temp.x = nx, temp.depth = depth+1;	
 					}
-//					PRINT("final:%d %d %d\n",temp.y, temp.x, temp.depth);
+					PRINT("final:%d %d %d\n",temp.y, temp.x, temp.depth);
 
 				}
 				
@@ -113,7 +113,7 @@ void BFS(int y, int x, int depth){
 		
 	}
 	if(!exit && temp.valid){
-//			PRINT("run : %d, yx: %d,%d\n", temp.depth, temp.y, temp.x);
+			//printf("run : %d, yx: %d,%d\n", temp.depth, temp.y, temp.x);
 			eat++;
 			Fcnt--;
 			time += temp.depth;
@@ -143,14 +143,14 @@ int main(){
 	}
 
 	//testPR
-//	for(int i=0; i<N; ++i){
-//		for(int j=0; j<N; ++j){
-//			PRINT("%d ", arr[i][j]);
-//		}
-//		PRINT("\n");
-//	}
-//	PRINT("i,j == %d %d\n", sy, sx);
-//	PRINT("FCNT == %d\n", Fcnt);
+	for(int i=0; i<N; ++i){
+		for(int j=0; j<N; ++j){
+			PRINT("%d ", arr[i][j]);
+		}
+		PRINT("\n");
+	}
+	PRINT("i,j == %d %d\n", sy, sx);
+	PRINT("FCNT == %d\n", Fcnt);
 	
 	
 	size = 2;
@@ -163,12 +163,12 @@ int main(){
 			eat=0;
 		}
 		
-//		for(int i=0; i<N; ++i){
-//			for (int j=0; j<N; ++j){
-//				PRINT("%d ",arr[i][j]);
-//			}
-//			PRINT("\n");
-//		}
+		for(int i=0; i<N; ++i){
+			for (int j=0; j<N; ++j){
+				PRINT("%d ",arr[i][j]);
+			}
+			PRINT("\n");
+		}
 		
 			
 		if(Fcnt == savefcnt || Fcnt == 0)
@@ -178,7 +178,7 @@ int main(){
 	}
 	
 	
-//	PRINT("\n");
+	PRINT("\n");
 	printf("%d", time);
 	
 	return 0;
