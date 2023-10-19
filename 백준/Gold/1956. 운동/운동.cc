@@ -53,26 +53,25 @@ void distmake() {
 
 
 int main() {
-	cin >> n >> m;
+	scanf("%d %d",&n,&m);
 	for (int j = 0; j < m; j++) {
 		int a, b, c;
-		cin >> a >> b >> c;
+		scanf("%d %d %d", &a, &b, &c);
 		adj[a].push_back({ b,c });
 	}
 	distmake();
 	int ans = inf;
 	for (int i = 1; i <= n; i++) {
 		int num = fun(i);
-		//cout << "fun(" << i << ") : " << num << endl;
 		if (ans > num) {
 			ans = num;
 		}
 		distmake();
 	}
 	if (ans == inf) {
-		cout << -1;
+		printf("%d\n",-1);
 	}
 	else {
-		cout << ans;
+		printf("%d\n",ans);
 	}
 }
