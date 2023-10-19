@@ -1,77 +1,98 @@
-#include <iostream>
-#include <algorithm>
-#include <cmath>
-#include <utility>
+#include <stdio.h>
 #include <queue>
-#include <vector>
-#include <string>
+#define INF 1e9
 using namespace std;
-int n, m;
-const int inf = 2e9;
-//인접 리스트 표현 
-vector<pair<int, int>> adj[401];
-//
-priority_queue<pair<int, int>>pq;
-//시작점부터 index까지의 최단거리 저장하는 배열
-int dist[401];
 
-//다익스트라 알고리즘
-int fun(int src) {
-	dist[src] = 0;
-	pq.push({ 0,src });
-	bool sym = false;
-	while (!pq.empty()) {
-		int here = pq.top().second;
-		int cost = -pq.top().first;
-		if (sym && here == src) {
-			//최단 순환 사이클을 찾았다!
-			return cost;
+int V, E, a, b, c; 
+vector<pair<int,int>> graph[405];
+int distable[405][405];
+
+priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> distpq;
+
+
+int dijkstra(int start){
+	
+	distable[start][start] = 0;
+	distpq.push({0,start});
+//	for(int i=0; i<graph[start].size(); ++i){
+//		distpq.push({graph[start][i].second, graph[start][i].first});
+//		distable[start][graph[start][i].first] = graph[start][i].second;
+//	}
+	bool Flag = false;
+	
+	while(!distpq.empty()){
+		
+		int dis = distpq.top().first;
+		int now = distpq.top().second;
+//		printf("start:%d, dis:%d, now:%d, flag:%d\n", start, dis, now, Flag);
+
+		if(Flag && now == start){
+//			printf("!!\n");
+			return dis;
 		}
-		sym = true;
-		pq.pop();
-		if (dist[here] < cost) {
+		Flag = true;
+		distpq.pop();
+		
+		if(distable[start][now] < dis ){
 			continue;
 		}
-		for (int i = 0; i < adj[here].size(); i++) {
-			int there = adj[here][i].first;
-			int nowcost = cost + adj[here][i].second;
-			//cout << "there : " << there << " nowcost : " << nowcost << endl;
-			if (there == src || dist[there] > nowcost) {
-				dist[there] = nowcost;
-				pq.push({ -nowcost,there });
+	
+		for(int i=0; i<graph[now].size(); ++i){
+			int next = graph[now][i].first;
+			int nxdis = dis + graph[now][i].second;
+//			printf("next:%d, nxdis:%d\n", next, nxdis);
+			if(next == start || distable[start][next] > nxdis){
+				distpq.push({nxdis, next});	
+				distable[start][next] = nxdis;
 			}
+		}	
+	}
+	
+	return INF;
+}
+
+void inittable(){
+	for(int i=0; i<=V; ++i){
+		for(int j=0; j<=V; ++j){
+			distable[i][j] = INF;	
 		}
 	}
-	//순환 사이클이 발견되지 않을경우
-	return inf;
-}
-void distmake() {
-	for (int i = 1; i <= n; i++) {
-		dist[i] = inf;
-	}
 }
 
 
-int main() {
-	scanf("%d %d",&n,&m);
-	for (int j = 0; j < m; j++) {
-		int a, b, c;
+int main(){
+	
+	scanf("%d %d",&V,&E);
+	for(int i=0; i<E; ++i){
 		scanf("%d %d %d", &a, &b, &c);
-		adj[a].push_back({ b,c });
+		graph[a].push_back({b,c});
 	}
-	distmake();
-	int ans = inf;
-	for (int i = 1; i <= n; i++) {
-		int num = fun(i);
-		if (ans > num) {
-			ans = num;
+	
+	inittable();
+	int ret = 0;
+	int ans = INF;
+	for(int i=1; i<=V; ++i){
+		ret = dijkstra(i);	
+//		printf("ret:%d\n",ret);
+		if(ans > ret){
+			ans = ret;
 		}
-		distmake();
+		inittable();
+        distpq = priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>();
 	}
-	if (ans == inf) {
-		printf("%d\n",-1);
+
+//	for(int i=0; i<=E; ++i){
+//		for(int j=0; j<=E; ++j){
+//			printf("%d ",distable[i][j]);
+//		}
+//		printf("\n");
+//	}	
+
+	if(ans == INF){
+		ans = -1;
 	}
-	else {
-		printf("%d\n",ans);
-	}
+	
+	printf("%d\n",ans);
+	
+	return 0;
 }
