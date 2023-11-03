@@ -4,7 +4,7 @@
 #define alloc_node() (&pool[Pidx++])
 using namespace std;
 
-
+ 
 struct NODE{
 	NODE *prev, *next;
 	int ID;
