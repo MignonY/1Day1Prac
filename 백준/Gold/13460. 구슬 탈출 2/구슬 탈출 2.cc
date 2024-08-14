@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <vector>
-#define PRINT printf
-//#define PRINT
+//#define PRINT printf
+#define PRINT
 using namespace std; 
 
 int N, M, ans;
@@ -42,7 +42,7 @@ struct Q {
 	int time, pastDir;
 };
 
-Q que[200000];
+Q que[150000];
 
 pair<POS,POS> RollBids(int dir, POS rpos, POS bpos) {
 	int ry = rpos.y; int rx = rpos.x;
@@ -216,14 +216,12 @@ int BFS(POS start_rPos, POS start_bPos) {
 			POS n_rPos = simulRet.first;
 			POS n_bPos = simulRet.second;
 
-			//PrintArr(n_rPos.y, n_rPos.x, n_bPos.y, n_bPos.x);
+			if (n_rPos.goal == true && n_bPos.goal == false) {
+				return (time + 1);
+			}
 
 			if (n_bPos.goal == true) {
 				continue;
-			}
-
-			if (n_rPos.goal == true && n_bPos.goal == false) {
-				return (time + 1);
 			}
 
 			rear++;
@@ -232,9 +230,8 @@ int BFS(POS start_rPos, POS start_bPos) {
 			que[rear].pastDir = (i + 2) % 4;
 			que[rear].time = time + 1;
 		}
-
 	}
-	
+
 	return -1;
 }
 
@@ -255,8 +252,6 @@ int main() {
 			}
 		}
 	}
-
-	//PrintArr(); 
 
 	ans = BFS(init_rPos, init_bPos);
 	printf("%d", ans);
